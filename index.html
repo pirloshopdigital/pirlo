@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portofolio Pirlo - Developer Script Bot WhatsApp & Shop Digital">
+    <meta name="keywords" content="Pirlo Official, script bot, WhatsApp bug, web developer, content creator">
+    <title>Portofolio Pirlo Official</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --accent-color: #1e40af;
+            --border-color: #e5e7eb;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1f2937;
+            --text-color: #f9fafb;
+            --card-bg: #374151;
+            --accent-color: #60a5fa;
+            --border-color: #4b5563;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle i,
+        .music-toggle i,
+        .snow-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .music-toggle:hover i,
+        .snow-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        .profile-pic-container {
+            position: relative;
+            display: inline-block;
+            margin: 1rem auto;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .rgb-border {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, red, green, blue, red);
+            background-size: 400%;
+            z-index: -1;
+            animation: rgbAnimation 8s linear infinite;
+        }
+
+        @keyframes rgbAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 400% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .project-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .support-list {
+            max-width: 600px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+        }
+
+        .support-list li {
+            display: flex;
+            align-items: center;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .support-list i {
+            margin-right: 0.5rem;
+        }
+
+        .music-toggle,
+        .snow-toggle {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Snow Effect */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: var(--text-color);
+            font-size: 1rem;
+            user-select: none;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        [data-theme="dark"] .snowflake {
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .snowflake {
+            color: #d1d5db;
+        }
+
+        /* Contact Link Styles */
+        .contact-link {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .contact-link:hover {
+            transform: scale(1.05);
+        }
+
+        .contact-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .contact-link:hover i {
+            transform: rotate(360deg);
+        }
+
+        /* Efek kilau saat hover */
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transition: left 0.4s ease;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .profile-pic {
+                width: 80px;
+                height: 80px;
+            }
+
+            .rgb-border {
+                top: -6px;
+                left: -6px;
+                right: -6px;
+                bottom: -6px;
+            }
+
+            .project-img {
+                height: 80px;
+            }
+
+            .support-list li {
+                font-size: 0.8rem;
+            }
+
+            .contact-link {
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .contact-link i {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white py-12 text-center">
+        <h1 class="text-5xl font-bold">Pirlo Official</h1>
+        <p class="mt-2 text-xl">Developer Script | Shop Digital</p>
+        <div class="profile-pic-container">
+            <img src="https://files.catbox.moe/wkgxve.jpg" alt="Foto Profil Pirlo" class="profile-pic">
+            <div class="rgb-border"></div>
+        </div>
+        <div class="mt-4 space-x-4">
+            <button id="theme-toggle" class="px-4 py-2 bg-gray-700 rounded-full theme-toggle" aria-label="Toggle tema">
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="music-toggle" class="px-4 py-2 bg-gray-700 rounded-full music-toggle"
+                aria-label="Putar atau jeda musik">
+                <i class="fas fa-play"></i>
+            </button>
+            <button id="snow-toggle" class="px-4 py-2 bg-gray-700 rounded-full snow-toggle"
+                aria-label="Toggle efek salju">
+                <i class="fas fa-snowflake"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="https://riistud.github.io/Lagu/djstecu.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 py-4" role="navigation">
+        <ul class="flex justify-center space-x-8 text-white font-semibold">
+            <li><a href="#biodata" class="hover:text-blue-400 transition-colors" aria-label="Biodata">Biodata</a></li>
+            <li><a href="#projects" class="hover:text-blue-400 transition-colors" aria-label="Proyek">Project</a></li>
+            <li><a href="#skills" class="hover:text-blue-400 transition-colors" aria-label="Keterampilan">My Skill</a>
+            </li>
+            <li><a href="#contact" class="hover:text-blue-400 transition-colors" aria-label="Kontak">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Biodata -->
+    <section id="biodata" class="py-12 px-4 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">Biodata</h2>
+        <div class="card p-8 rounded-lg shadow-lg">
+            <p class="mb-2"><i class="fas fa-user mr-2"></i> <strong>Nama:</strong> Pirlo Official</p>
+            <p><i class="fas fa-info-circle mr-2"></i> <strong>Deskripsi:</strong> Saya seorang developer script yang
+                bersemangat membangun proyek script bot terbaru, terutama script bot Multidevice WhatsApp. Saya juga aktif
+                sebagai admin rekber all game</p>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-12 px-4 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">My Project</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold mb-2"><i class="fas fa-project-diagram mr-2"></i> Vigora SYTIC</h3>
+                <p>Vigora SYTIC adalah script bot bug yang saya rancang untuk menyerang target secara crash di WhatsApp.
+                    Cepat, efisien, dan mudah digunakan.</p>
+            </div>
+            <div class="card p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold mb-2"><i class="fas fa-project-diagram mr-2"></i> Vigora Infludent</h3>
+                <p>Script premium dengan fungsi lebih ganas dibandingkan Vigora SYTIC. Dirancang untuk performa maksimal
+                    tanpa batasan versi.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-12 px-4 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">My Skill In Other Language</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="card p-4 rounded-lg shadow-lg text-center"><i class="fab fa-html5 mr-2"></i> HTML</div>
+            <div class="card p-4 rounded-lg shadow-lg text-center"><i class="fab fa-css3-alt mr-2"></i> CSS</div>
+            <div class="card p-4 rounded-lg shadow-lg text-center"><i class="fab fa-js mr-2"></i> JavaScript</div>
+            <div class="card p-4 rounded-lg shadow-lg text-center"><i class="fab fa-python mr-2"></i> Python</div>
+            <div class="card p-4 rounded-lg shadow-lg text-center"><i class="fab fa-node-js mr-2"></i> Node.js</div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-12 px-4 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">My Contact!</h2>
+        <div class="card p-8 rounded-lg shadow-lg text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <a href="https://wa.me//6282211815142" target="_blank"
+                    class="contact-link flex items-center justify-center px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
+                    aria-label="Chat via WhatsApp (Primary)">
+                    <i class="fab fa-telegram text-2xl mr-2"></i> WhatsApp Number
+                    <span class="sr-only">Chat via WhatsApp (Primary)</span>
+                </a>
+                <a href="https://whatsapp.com/channel/0029Vb8hinWC1Fu9uv3Sbb1c" target="_blank"
+                    class="contact-link flex items-center justify-center px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
+                    aria-label="Chat via WhatsApp (Secondary)">
+                    <i class="fab fa-telegram text-2xl mr-2"></i> WhatsApp Channel
+                    <span class="sr-only">Chat via WhatsApp (Secondary)</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-6">
+        <p><i class="fas fa-heart mr-2"></i> Thanks My Support!</p>
+        <ul class="support-list">
+            <li><i class="fas fa-star mr-2"></i> Pirlo - My Partner</li>
+            <li><i class="fas fa-star mr-2"></i> Mama - My Partner</li>
+            <li><i class="fas fa-handshake mr-2"></i> Papa - My Support</li>
+            <li><i class="fas fa-handshake mr-2"></i> Pacar - My Support</li>
+            <li><i class="fas fa-handshake mr-2"></i> Nama - My Support</li>
+            <li><i class="fas fa-handshake mr-2"></i> Nama - My Support</li>
+            <li><i class="fas fa-user-friends mr-2"></i> Nama - My Friend</li>
+            <li><i class="fas fa-user-friends mr-2"></i> Nama - My Friend</li>
+            <li><i class="fas fa-user-friends mr-2"></i> Nama - My Friend</li>
+        </ul>
+    </footer>
+
+    <script>
+        // Inisialisasi Tema
+        const themeToggle = document.getElementById('theme-toggle');
+        const musicToggle = document.getElementById('music-toggle');
+        const snowToggle = document.getElementById('snow-toggle');
+        const musicIcon = musicToggle.querySelector('i');
+        const snowIcon = snowToggle.querySelector('i');
+        const audio = document.getElementById('background-music');
+        const icon = themeToggle.querySelector('i');
+
+        // Cek preferensi tema dari localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            icon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        // Toggle Dark/Light Mode
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Toggle Music
+        musicToggle.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                musicIcon.classList.replace('fa-play', 'fa-pause');
+                gsap.to(musicToggle, { scale: 1.2, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 });
+            } else {
+                audio.pause();
+                musicIcon.classList.replace('fa-pause', 'fa-play');
+                gsap.to(musicToggle, { scale: 1.2, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 });
+            }
+        });
+
+        // Snow Effect
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Durasi jatuh 2-5 detik
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3; // Opasitas acak
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // Ukuran acak
+            document.body.appendChild(snowflake);
+
+            // Hapus snowflake setelah animasi selesai
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // Toggle Snow Effect
+        let snowInterval = setInterval(createSnowflake, 100);
+        snowToggle.addEventListener('click', () => {
+            if (snowInterval) {
+                clearInterval(snowInterval);
+                snowInterval = null;
+                snowIcon.classList.replace('fa-snowflake', 'fa-snowflake-slash');
+                document.querySelectorAll('.snowflake').forEach(s => s.remove());
+            } else {
+                snowInterval = setInterval(createSnowflake, 100);
+                snowIcon.classList.replace('fa-snowflake-slash', 'fa-snowflake');
+            }
+            gsap.to(snowToggle, { scale: 1.2, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // GSAP Animations
+        gsap.from('header', { duration: 1, y: -100, opacity: 0, ease: 'power2.out' });
+        gsap.from('.profile-pic', { duration: 1, scale: 0, opacity: 0, ease: 'elastic.out(1, 0.3)', delay: 0.5 });
+        gsap.from('.rgb-border', { duration: 1, rotate: 360, opacity: 0, ease: 'power2.out', delay: 0.7 });
+        gsap.from('.card', { duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: 'power2.out', scrollTrigger: { trigger: '.card', start: 'top 80%' } });
+
+        // Animasi GSAP untuk link kontak
+        gsap.from('.contact-link', {
+            duration: 0.8,
+            y: 30,
+            opacity: 0,
+            stagger: 0.15,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '#contact',
+                start: 'top 80%'
+            }
+        });
+
+        // Animasi hover dan klik untuk setiap link
+        document.querySelectorAll('.contact-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
+            });
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            });
+            link.addEventListener('click', () => {
+                gsap.to(link, { scale: 0.95, duration: 0.1, ease: 'power2.in', yoyo: true, repeat: 1 });
+            });
+        });
+    </script>
+</body>
+
+</html>
